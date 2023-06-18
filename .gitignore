@@ -107,3 +107,6 @@ venv.bak/
 # output files directory
 /server/output/*
 !/server/output/.gitkeep
+
+# docker files
+.docker

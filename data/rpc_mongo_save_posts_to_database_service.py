@@ -19,6 +19,6 @@ class RpcMongoSavePostsToDatabaseService(SavePostsToDatabaseService, rpyc.Servic
 
     @rpyc.exposed
     def save_posts_to_database(self, *args) -> None:
-        posts: list = json.loads(args[0][0])
+        posts = json.loads(args[0][0])
 
-        print(type(posts), posts)
+        self.mongo_connection.insert_many("posts", posts)

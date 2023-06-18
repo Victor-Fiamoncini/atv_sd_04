@@ -2,6 +2,7 @@
 
 
 class Env:
+    MONGO_DATABASE_NAME = "atv_sd_04_mongo"
     MONGO_HOST = "localhost"
     MONGO_PORT = 27017
 

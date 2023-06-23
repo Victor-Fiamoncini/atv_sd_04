@@ -27,19 +27,7 @@ pip install -r requirements.txt
 pip install -r requirements_dev.txt
 ```
 
-### Inicia o servidor HTTP
-
-```bash
-./init_business.sh
-```
-
-### Inicia o servidor RPC
-
-```bash
-./init_data.sh
-```
-
-### Cria e inicia o container MongoDB
+### Inicia os containers Docker (para desenvolvimento)
 
 ```bash
 docker-compose up -d --build

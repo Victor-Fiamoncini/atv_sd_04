@@ -1,9 +1,19 @@
 version: "3"
 
 services:
+  business:
+    container_name: business
+    build:
+      context: .
+      dockerfile: Dockerfile-business
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/business
+
   database:
-    image: mongo
     container_name: atv_sd_04_mongo
+    image: mongo
     hostname: mongodb
     ports:
       - 27017:27017

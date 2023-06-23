@@ -1,13 +1,23 @@
 version: "3"
 
 services:
+  facade:
+    container_name: facade
+    build:
+      context: .
+      dockerfile: Dockerfile-facade
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/facade
+
   business:
     container_name: business
     build:
       context: .
       dockerfile: Dockerfile-business
     ports:
-      - 3000:3000
+      - "3001:3001"
     volumes:
       - .:/business
 
@@ -16,6 +26,6 @@ services:
     image: mongo
     hostname: mongodb
     ports:
-      - 27017:27017
+      - "27017:27017"
     volumes:
       - ./.docker/atv_sd_04_mongo:/data/db

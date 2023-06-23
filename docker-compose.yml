@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile-facade
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
       - .:/facade
 
@@ -17,15 +17,25 @@ services:
       context: .
       dockerfile: Dockerfile-business
     ports:
-      - "3001:3001"
+      - 3001:3001
     volumes:
       - .:/business
 
-  database:
-    container_name: atv_sd_04_mongo
+  data:
+    container_name: data
+    build:
+      context: .
+      dockerfile: Dockerfile-data
+    ports:
+      - 3002:3002
+    volumes:
+      - .:/data
+
+  mongo_db:
+    container_name: mongo_db
     image: mongo
     hostname: mongodb
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
       - ./.docker/atv_sd_04_mongo:/data/db

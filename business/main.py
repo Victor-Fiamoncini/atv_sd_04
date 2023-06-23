@@ -1,6 +1,7 @@
 """Main program module"""
 
-from flask import Flask, Response, request, jsonify
+from flask import Flask, Response, jsonify
+from rpyc import GenericException
 
 from env import Env
 from rpc_connection import RpcConnection
@@ -13,7 +14,7 @@ business_app = Flask(__name__)
 def health_check() -> Response:
     """Server health check function"""
 
-    return "Business server is alive", 200
+    return jsonify("Business server is alive"), 200
 
 
 @business_app.post("/posts")
@@ -22,7 +23,7 @@ def create_posts() -> Response:
 
     try:
         """TODO Read posts from TXT file"""
-        posts = request.data
+        posts = [{'id': 01}]
 
         if not posts:
             return jsonify("Posts not provided"), 400
@@ -33,8 +34,11 @@ def create_posts() -> Response:
         )
 
         return jsonify("Posts successfully created"), 200
-    except:
-        return jsonify("Server error"), 500
+    except GenericException as generic_exception:
+        return jsonify(f"An RPC error occurred: {generic_exception}"), 400
+    except Exception as exception:
+        return jsonify(f"Internal server error: {exception}"), 500
+
 
 
 if __name__ == "__main__":

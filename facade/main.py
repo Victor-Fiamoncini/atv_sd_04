@@ -30,13 +30,9 @@ def create_posts() -> Response:
 
         return jsonify("Posts successfully created"), 200
     except HTTPError as http_error:
-        error_message = f"An HTTP error occurred: {http_error}"
-
-        return jsonify(error_message), 400
+        return jsonify(f"An HTTP error occurred: {http_error}"), 400
     except RequestException as request_exception:
-        error_message = f"An HTTP request error occurred: {request_exception}"
-
-        return jsonify(error_message), 400
+        return jsonify(f"An HTTP request error occurred: {request_exception}"), 400
     except Exception as exception:
         return jsonify(f"Internal server error: {exception}"), 500
 

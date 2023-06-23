@@ -1,6 +1,6 @@
 """Main program module"""
 
-from flask import Flask, request, jsonify
+from flask import Flask, Response, request, jsonify
 
 from env import Env
 from rpc_connection import RpcConnection
@@ -9,8 +9,15 @@ from rpc_connection import RpcConnection
 business_app = Flask(__name__)
 
 
+@business_app.get("/health")
+def health_check() -> Response:
+    """Server health check function"""
+
+    return "Server is alive", 200
+
+
 @business_app.post("/posts")
-def create_posts() -> None:
+def create_posts() -> Response:
     """Handle /posts HTTP and call with RMI the "save_posts_to_database" routine"""
 
     try:

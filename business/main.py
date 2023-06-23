@@ -13,7 +13,7 @@ business_app = Flask(__name__)
 def health_check() -> Response:
     """Server health check function"""
 
-    return "Server is alive", 200
+    return "Business server is alive", 200
 
 
 @business_app.post("/posts")
@@ -21,6 +21,7 @@ def create_posts() -> Response:
     """Handle /posts HTTP and call with RMI the "save_posts_to_database" routine"""
 
     try:
+        """TODO Read posts from TXT file"""
         posts = request.data
 
         if not posts:
@@ -37,6 +38,12 @@ def create_posts() -> Response:
 
 
 if __name__ == "__main__":
-    print(f"Starting HTTP server at {Env.HTTP_SERVER_HOST}:{Env.HTTP_SERVER_PORT}")
+    starting_log = f"Starting Business HTTP server at {Env.BUSINESS_HTTP_SERVER_HOST}:{Env.BUSINESS_HTTP_SERVER_PORT}"
 
-    business_app.run(host=Env.HTTP_SERVER_HOST, port=Env.HTTP_SERVER_PORT, debug=True)
+    print(starting_log)
+
+    business_app.run(
+        host=Env.BUSINESS_HTTP_SERVER_HOST,
+        port=Env.BUSINESS_HTTP_SERVER_PORT,
+        debug=True,
+    )

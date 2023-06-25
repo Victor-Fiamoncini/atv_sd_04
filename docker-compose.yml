@@ -42,7 +42,6 @@ services:
   mongo_db:
     container_name: mongo_db
     image: mongo
-    hostname: mongodb
     ports:
       - 27017:27017
     networks:

@@ -8,8 +8,6 @@ from rpc_mongo_save_posts_to_database_service import RpcMongoSavePostsToDatabase
 
 
 def main() -> None:
-    print(f"Starting RPC server at {Env.RPC_SERVER_HOST}:{Env.RPC_SERVER_PORT}")
-
     mongo_connection = MongoConnection()
     rpc_mongo_save_posts_to_database_service = RpcMongoSavePostsToDatabaseService(
         mongo_connection
@@ -24,4 +22,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    print(f"Starting RPC server at {Env.RPC_SERVER_HOST}:{Env.RPC_SERVER_PORT}")
+
     main()

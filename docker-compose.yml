@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile-facade
     ports:
       - 3000:3000
+    networks:
+      - atv_sd_04
     volumes:
       - .:/facade
 
@@ -18,6 +20,8 @@ services:
       dockerfile: Dockerfile-business
     ports:
       - 3001:3001
+    networks:
+      - atv_sd_04
     volumes:
       - .:/business
 
@@ -28,6 +32,10 @@ services:
       dockerfile: Dockerfile-data
     ports:
       - 3002:3002
+    networks:
+      - atv_sd_04
+    depends_on:
+      - mongo_db
     volumes:
       - .:/data
 
@@ -37,5 +45,10 @@ services:
     hostname: mongodb
     ports:
       - 27017:27017
+    networks:
+      - atv_sd_04
     volumes:
       - ./.docker/atv_sd_04_mongo:/data/db
+
+networks:
+  atv_sd_04:

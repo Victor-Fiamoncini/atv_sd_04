@@ -6,7 +6,7 @@
 - pip == 20.0.2
 - virtualenv == 20.21.0
 
-## Como iniciar
+## 1. Instalando dependências do projeto na máquina de desenvolvimento
 
 ### Cria um ambiente virtual chamado "atv_sd_04_venv"
 
@@ -27,7 +27,7 @@ pip install -r requirements.txt
 pip install -r requirements_dev.txt
 ```
 
-### Inicia os containers Docker (para desenvolvimento)
+## 2. Inicia os containers Docker para desenvolvimento
 
 ```bash
 docker-compose up -d --build

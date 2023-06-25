@@ -3,12 +3,14 @@
 import requests
 
 from flask import Flask, Response, jsonify
+from flask_cors import CORS
 from requests.exceptions import HTTPError, RequestException
 
 from env import Env
 
 
 facade_app = Flask(__name__)
+CORS(facade_app)
 
 
 @facade_app.get("/health")
@@ -23,7 +25,7 @@ def create_posts() -> Response:
     """Handle /posts HTTP to business server"""
 
     try:
-        requests.get(
+        requests.post(
             url=f"{Env.BUSINESS_HTTP_SERVER_HOST}:{Env.BUSINESS_HTTP_SERVER_PORT}/posts",
             timeout=120,
         )

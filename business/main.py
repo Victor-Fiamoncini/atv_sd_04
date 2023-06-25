@@ -1,6 +1,7 @@
 """Main program module"""
 
 from flask import Flask, Response, jsonify
+from flask_cors import CORS
 from rpyc import GenericException
 
 from env import Env
@@ -8,6 +9,7 @@ from rpc_connection import RpcConnection
 
 
 business_app = Flask(__name__)
+CORS(business_app)
 
 
 @business_app.get("/health")
@@ -23,7 +25,7 @@ def create_posts() -> Response:
 
     try:
         """TODO Read posts from TXT file"""
-        posts = [{'id': 01}]
+        posts = [{"id": "dbifuwdbvuidfsvnsudvnou123"}]
 
         if not posts:
             return jsonify("Posts not provided"), 400
@@ -38,7 +40,6 @@ def create_posts() -> Response:
         return jsonify(f"An RPC error occurred: {generic_exception}"), 400
     except Exception as exception:
         return jsonify(f"Internal server error: {exception}"), 500
-
 
 
 if __name__ == "__main__":

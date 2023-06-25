@@ -1,7 +1,5 @@
 """This module defines the RpcMongoSavePostsToDatabaseService class"""
 
-import json
-
 import rpyc
 
 from mongo_connection import MongoConnection
@@ -19,6 +17,6 @@ class RpcMongoSavePostsToDatabaseService(SavePostsToDatabaseService, rpyc.Servic
 
     @rpyc.exposed
     def save_posts_to_database(self, *args) -> None:
-        posts = json.loads(args[0][0])
+        posts = args[0][0]
 
         self.mongo_connection.insert_many("posts", posts)

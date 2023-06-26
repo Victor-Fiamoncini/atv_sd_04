@@ -2,8 +2,6 @@
 
 from pymongo import MongoClient
 
-from env import Env
-
 
 class MongoConnection:
     host: str = None

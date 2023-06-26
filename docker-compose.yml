@@ -9,7 +9,7 @@ services:
     ports:
       - 3000:3000
     networks:
-      - atv_sd_04
+      - atv_sd_04_default
     volumes:
       - .:/facade
 
@@ -21,7 +21,7 @@ services:
     ports:
       - 3001:3001
     networks:
-      - atv_sd_04
+      - atv_sd_04_default
     volumes:
       - .:/business
 
@@ -33,21 +33,43 @@ services:
     ports:
       - 3002:3002
     networks:
-      - atv_sd_04
+      - atv_sd_04_default
     depends_on:
-      - mongo_db
+      - mongo_db_01
+      - mongo_db_02
+      - mongo_db_03
     volumes:
       - .:/data
 
-  mongo_db:
-    container_name: mongo_db
+  mongo_db_01:
+    container_name: mongo_db_01
     image: mongo
     ports:
       - 27017:27017
     networks:
-      - atv_sd_04
+      - atv_sd_04_default
     volumes:
-      - ./.docker/atv_sd_04_mongo:/data/db
+      - ./.docker/atv_sd_04_mongo_db_01:/data/db
+
+  mongo_db_02:
+    container_name: mongo_db_02
+    image: mongo
+    ports:
+      - 27018:27017
+    networks:
+      - atv_sd_04_default
+    volumes:
+      - ./.docker/atv_sd_04_mongo_db_02:/data/db
+
+  mongo_db_03:
+    container_name: mongo_db_03
+    image: mongo
+    ports:
+      - 27019:27017
+    networks:
+      - atv_sd_04_default
+    volumes:
+      - ./.docker/atv_sd_04_mongo_db_03:/data/db
 
 networks:
-  atv_sd_04:
+  atv_sd_04_default:

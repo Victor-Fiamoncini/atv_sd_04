@@ -8,9 +8,25 @@ from rpc_mongo_save_posts_to_database_service import RpcMongoSavePostsToDatabase
 
 
 def main() -> None:
-    mongo_connection = MongoConnection()
+    mongo_connection_01 = MongoConnection(
+        host=Env.MONGO_HOST_01,
+        database_name=Env.MONGO_DATABASE_NAME_01,
+    )
+    mongo_connection_02 = MongoConnection(
+        host=Env.MONGO_HOST_02,
+        database_name=Env.MONGO_DATABASE_NAME_02,
+    )
+    mongo_connection_03 = MongoConnection(
+        host=Env.MONGO_HOST_03,
+        database_name=Env.MONGO_DATABASE_NAME_03,
+    )
+
     rpc_mongo_save_posts_to_database_service = RpcMongoSavePostsToDatabaseService(
-        mongo_connection
+        mongo_connections=[
+            mongo_connection_01,
+            mongo_connection_02,
+            mongo_connection_03,
+        ]
     )
 
     server = ThreadedServer(

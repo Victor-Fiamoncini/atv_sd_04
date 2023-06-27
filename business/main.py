@@ -5,7 +5,7 @@ from flask_cors import CORS
 from rpyc import GenericException
 
 from env import Env
-from parse_posts_input_to_json_service import ParsePostsInputToJsonService
+from parse_posts_input_to_list_service import ParsePostsInputToListService
 from rpc_connection import RpcConnection
 
 
@@ -25,12 +25,12 @@ def create_posts() -> Response:
     """Handle /posts HTTP and call with RMI the "save_posts_to_database" routine"""
 
     try:
-        parsed_posts_json = ParsePostsInputToJsonService().parse_posts_to_json()
+        parsed_posts_list = ParsePostsInputToListService().parse_posts_to_json()
 
         rpc_connection = RpcConnection(Env.RPC_SERVER_HOST, Env.RPC_SERVER_PORT)
         rpc_connection.bind().call_procedure(
             "save_posts_to_database",
-            parsed_posts_json,
+            parsed_posts_list,
         )
 
         return jsonify("Posts successfully created"), 200

@@ -25,7 +25,7 @@ def create_posts() -> Response:
     """Handle /posts HTTP and call with RMI the "save_posts_to_database" routine"""
 
     try:
-        parsed_posts_list = ParsePostsInputToListService().parse_posts_to_json()
+        parsed_posts_list = ParsePostsInputToListService().parse_posts_to_list()
 
         rpc_connection = RpcConnection(Env.RPC_SERVER_HOST, Env.RPC_SERVER_PORT)
         rpc_connection.bind().call_procedure(

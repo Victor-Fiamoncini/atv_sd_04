@@ -17,3 +17,6 @@ class MongoConnection:
 
     def insert_many(self, collection: str, data: list) -> None:
         self._client[self.database_name][collection].insert_many(data)
+
+    def insert_one(self, collection: str, data: dict) -> None:
+        self._client[self.database_name][collection].insert_one(data)

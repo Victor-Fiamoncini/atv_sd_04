@@ -6,6 +6,7 @@ import rpyc
 
 from mongo_connection import MongoConnection
 from save_posts_to_database_service import SavePostsToDatabaseService
+from save_posts_thread_executor import SavePostsThreadExecutor
 
 
 @rpyc.service
@@ -22,4 +23,10 @@ class RpcMongoSavePostsToDatabaseService(SavePostsToDatabaseService, rpyc.Servic
         posts = args[0][0]
 
         for mongo_connection in self.mongo_connections:
-            mongo_connection.insert_many("posts", posts)
+            save_posts_thread_executor = SavePostsThreadExecutor(
+                mongo_connection=mongo_connection,
+                posts=posts,
+            )
+
+            for _ in save_posts_thread_executor.execute_concurrently():
+                pass

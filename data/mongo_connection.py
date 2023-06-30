@@ -1,5 +1,7 @@
 """This module defines the MongoConnection class"""
 
+from typing import List
+
 from pymongo import MongoClient
 
 
@@ -20,3 +22,19 @@ class MongoConnection:
 
     def insert_one(self, collection: str, data: dict) -> None:
         self._client[self.database_name][collection].insert_one(data)
+
+    def find_all(self, collection: str) -> List[dict]:
+        data = self._client[self.database_name][collection].find()
+
+        return list(data)
+
+    def delete_one(self, collection: str, identifier: str) -> None:
+        self._client[self.database_name][collection].find_one_and_delete(
+            filter={"_id": identifier},
+        )
+
+    def update_one(self, collection: str, identifier: str, data: dict) -> None:
+        self._client[self.database_name][collection].find_one_and_update(
+            filter={"_id": identifier},
+            update=data,
+        )

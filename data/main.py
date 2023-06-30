@@ -4,7 +4,7 @@ from rpyc.utils.server import ThreadedServer
 
 from env import Env
 from mongo_connection import MongoConnection
-from rpc_mongo_save_posts_to_database_service import RpcMongoSavePostsToDatabaseService
+from rpc_mongo_database_service import RpcMongoDatabaseService
 
 
 def main() -> None:
@@ -21,7 +21,7 @@ def main() -> None:
         database_name=Env.MONGO_DATABASE_NAME_03,
     )
 
-    rpc_mongo_save_posts_to_database_service = RpcMongoSavePostsToDatabaseService(
+    rpc_mongo_database_service = RpcMongoDatabaseService(
         mongo_connections=[
             mongo_connection_01,
             mongo_connection_02,
@@ -30,7 +30,7 @@ def main() -> None:
     )
 
     server = ThreadedServer(
-        rpc_mongo_save_posts_to_database_service,
+        rpc_mongo_database_service,
         hostname=Env.RPC_SERVER_HOST,
         port=Env.RPC_SERVER_PORT,
     )

@@ -1,16 +1,16 @@
-"""This module defines the RpcMongoSavePostsToDatabaseService class"""
+"""This module defines the RpcMongoDatabaseService class"""
 
 from typing import List
 
 import rpyc
 
+from database_service import DatabaseService
 from mongo_connection import MongoConnection
-from save_posts_to_database_service import SavePostsToDatabaseService
 from save_posts_thread_executor import SavePostsThreadExecutor
 
 
 @rpyc.service
-class RpcMongoSavePostsToDatabaseService(SavePostsToDatabaseService, rpyc.Service):
+class RpcMongoDatabaseService(rpyc.Service, DatabaseService):
     mongo_connections: List[MongoConnection] = []
 
     def __init__(self, mongo_connections: List[MongoConnection]) -> None:

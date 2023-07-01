@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile-facade
     ports:
       - 3000:3000
+    restart: always
     networks:
       - atv_sd_04_default
     volumes:
@@ -20,6 +21,7 @@ services:
       dockerfile: Dockerfile-business
     ports:
       - 3001:3001
+    restart: always
     networks:
       - atv_sd_04_default
     volumes:
@@ -32,6 +34,7 @@ services:
       dockerfile: Dockerfile-data
     ports:
       - 3002:3002
+    restart: always
     networks:
       - atv_sd_04_default
     depends_on:

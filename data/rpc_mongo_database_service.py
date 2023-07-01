@@ -1,5 +1,6 @@
 """This module defines the RpcMongoDatabaseService class"""
 
+from random import choice
 from typing import List
 
 import rpyc
@@ -17,6 +18,12 @@ class RpcMongoDatabaseService(rpyc.Service, DatabaseService):
         super().__init__()
 
         self.mongo_connections = mongo_connections
+
+    @rpyc.exposed
+    def get_posts_from_database(self, *args) -> List[dict]:
+        mongo_connection = choice(self.mongo_connections)
+
+        return mongo_connection.find_all("posts")
 
     @rpyc.exposed
     def save_posts_to_database(self, *args) -> None:

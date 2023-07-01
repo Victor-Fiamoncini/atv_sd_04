@@ -20,9 +20,28 @@ def health_check() -> Response:
     return jsonify("Facade server is alive"), 200
 
 
+@facade_app.get("/posts")
+def get_posts() -> Response:
+    """Handle GET /posts HTTP to business server"""
+
+    try:
+        response = requests.get(
+            url=f"{Env.BUSINESS_HTTP_SERVER_HOST}:{Env.BUSINESS_HTTP_SERVER_PORT}/posts",
+            timeout=120,
+        )
+
+        return jsonify(response.json()), 200
+    except HTTPError as http_error:
+        return jsonify(f"An HTTP error occurred: {http_error}"), 400
+    except RequestException as request_exception:
+        return jsonify(f"An HTTP request error occurred: {request_exception}"), 400
+    except Exception as exception:
+        return jsonify(f"Internal server error: {exception}"), 500
+
+
 @facade_app.post("/posts")
 def create_posts() -> Response:
-    """Handle /posts HTTP to business server"""
+    """Handle POST /posts HTTP to business server"""
 
     try:
         requests.post(
@@ -30,7 +49,7 @@ def create_posts() -> Response:
             timeout=120,
         )
 
-        return jsonify("Posts successfully created"), 200
+        return jsonify("Posts successfully created"), 201
     except HTTPError as http_error:
         return jsonify(f"An HTTP error occurred: {http_error}"), 400
     except RequestException as request_exception:

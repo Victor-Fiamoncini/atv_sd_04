@@ -24,9 +24,9 @@ class MongoConnection:
         self._client[self.database_name][collection].insert_one(data)
 
     def find_all(self, collection: str) -> List[dict]:
-        data = self._client[self.database_name][collection].find()
+        documents = self._client[self.database_name][collection].find()
 
-        return list(data)
+        return [document for document in documents]
 
     def delete_one(self, collection: str, identifier: str) -> None:
         self._client[self.database_name][collection].find_one_and_delete(

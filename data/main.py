@@ -33,6 +33,7 @@ def main() -> None:
         rpc_mongo_database_service,
         hostname=Env.RPC_SERVER_HOST,
         port=Env.RPC_SERVER_PORT,
+        protocol_config={"allow_public_attrs": True, "sync_request_timeout": 10},
     )
     server.start()
 

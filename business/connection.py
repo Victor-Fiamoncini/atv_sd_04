@@ -18,7 +18,7 @@ class Connection:
 
         raise UnimplementedMethodException()
 
-    def call_procedure(self, procedure_name: str, *args) -> None:
+    def call_procedure(self, procedure_name: str, *args) -> Any:
         """This method calls a remote procedure"""
 
         raise UnimplementedMethodException()

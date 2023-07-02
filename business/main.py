@@ -1,6 +1,6 @@
 """Main program module"""
 
-from flask import Flask, Response, jsonify
+from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
 from rpyc import GenericException
 
@@ -62,6 +62,25 @@ def create_posts() -> Response:
         )
 
         return jsonify("Posts successfully created"), 201
+    except GenericException as generic_exception:
+        return jsonify(f"An RPC error occurred: {generic_exception}"), 400
+    except Exception as exception:
+        return jsonify(f"Internal server error: {exception}"), 500
+
+
+@business_app.put("/posts/<id>")
+def update_post(id: str) -> Response:
+    """Handle /posts HTTP and call with RMI the "update_post_from_database" routine"""
+
+    try:
+        rpc_connection = RpcConnection(Env.RPC_SERVER_HOST, Env.RPC_SERVER_PORT)
+        rpc_connection.bind().call_procedure(
+            "update_post_from_database",
+            id,
+            request.json,
+        )
+
+        return jsonify(f"Post {id} successfully updated"), 200
     except GenericException as generic_exception:
         return jsonify(f"An RPC error occurred: {generic_exception}"), 400
     except Exception as exception:

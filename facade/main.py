@@ -1,8 +1,10 @@
 """Main program module"""
 
+import json
+
 import requests
 
-from flask import Flask, Response, jsonify
+from flask import Flask, Response, jsonify, request
 from flask_cors import CORS
 from requests.exceptions import HTTPError, RequestException
 
@@ -50,6 +52,27 @@ def create_posts() -> Response:
         )
 
         return jsonify("Posts successfully created"), 201
+    except HTTPError as http_error:
+        return jsonify(f"An HTTP error occurred: {http_error}"), 400
+    except RequestException as request_exception:
+        return jsonify(f"An HTTP request error occurred: {request_exception}"), 400
+    except Exception as exception:
+        return jsonify(f"Internal server error: {exception}"), 500
+
+
+@facade_app.put("/posts/<id>")
+def update_post(id: str) -> Response:
+    """Handle PUT /posts HTTP to business server"""
+
+    try:
+        requests.put(
+            url=f"{Env.BUSINESS_HTTP_SERVER_HOST}:{Env.BUSINESS_HTTP_SERVER_PORT}/posts/{id}",
+            timeout=120,
+            data=json.dumps(request.json),
+            headers={"Content-Type": "application/json"},
+        )
+
+        return jsonify(f"Post {id} successfully updated"), 200
     except HTTPError as http_error:
         return jsonify(f"An HTTP error occurred: {http_error}"), 400
     except RequestException as request_exception:

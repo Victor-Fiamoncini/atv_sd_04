@@ -37,3 +37,18 @@ class RpcMongoDatabaseService(rpyc.Service, DatabaseService):
 
             for _ in save_posts_thread_executor.execute_concurrently():
                 pass
+
+    @rpyc.exposed
+    def update_post_from_database(self, *args) -> None:
+        post_id = args[0][0]
+        post_data = args[0][1]
+
+        for mongo_connection in self.mongo_connections:
+            mongo_connection.update_one("posts", post_id, post_data)
+
+    @rpyc.exposed
+    def delete_post_from_database(self, *args) -> None:
+        post_id = args[0][0]
+
+        for mongo_connection in self.mongo_connections:
+            mongo_connection.delete_one("posts", post_id)

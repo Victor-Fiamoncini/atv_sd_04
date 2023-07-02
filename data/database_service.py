@@ -13,3 +13,13 @@ class DatabaseService:
         """Executes the creation of posts data to provided database"""
 
         raise UnimplementedMethodException()
+
+    def update_post_from_database(self, *args) -> None:
+        """Executes the update of data from provided database"""
+
+        raise UnimplementedMethodException()
+
+    def delete_post_from_database(self, *args) -> None:
+        """Executes the deletion of data from provided database"""
+
+        raise UnimplementedMethodException()

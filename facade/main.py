@@ -81,6 +81,25 @@ def update_post(id: str) -> Response:
         return jsonify(f"Internal server error: {exception}"), 500
 
 
+@facade_app.delete("/posts/<id>")
+def delete_post(id: str) -> Response:
+    """Handle DELETE /posts HTTP to business server"""
+
+    try:
+        requests.delete(
+            url=f"{Env.BUSINESS_HTTP_SERVER_HOST}:{Env.BUSINESS_HTTP_SERVER_PORT}/posts/{id}",
+            timeout=120,
+        )
+
+        return jsonify(f"Post {id} successfully deleted"), 200
+    except HTTPError as http_error:
+        return jsonify(f"An HTTP error occurred: {http_error}"), 400
+    except RequestException as request_exception:
+        return jsonify(f"An HTTP request error occurred: {request_exception}"), 400
+    except Exception as exception:
+        return jsonify(f"Internal server error: {exception}"), 500
+
+
 if __name__ == "__main__":
     starting_log = f"Starting Facade HTTP server at {Env.FACADE_HTTP_SERVER_HOST}:{Env.FACADE_HTTP_SERVER_PORT}"
 

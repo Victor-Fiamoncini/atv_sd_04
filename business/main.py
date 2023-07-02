@@ -87,6 +87,21 @@ def update_post(id: str) -> Response:
         return jsonify(f"Internal server error: {exception}"), 500
 
 
+@business_app.delete("/posts/<id>")
+def delete_post(id: str) -> Response:
+    """Handle /posts HTTP and call with RMI the "delete_post_from_database" routine"""
+
+    try:
+        rpc_connection = RpcConnection(Env.RPC_SERVER_HOST, Env.RPC_SERVER_PORT)
+        rpc_connection.bind().call_procedure("delete_post_from_database", id)
+
+        return jsonify(f"Post {id} successfully deleted"), 200
+    except GenericException as generic_exception:
+        return jsonify(f"An RPC error occurred: {generic_exception}"), 400
+    except Exception as exception:
+        return jsonify(f"Internal server error: {exception}"), 500
+
+
 if __name__ == "__main__":
     starting_log = f"Starting Business HTTP server at {Env.BUSINESS_HTTP_SERVER_HOST}:{Env.BUSINESS_HTTP_SERVER_PORT}"
 

@@ -1,5 +1,6 @@
 """This module defines the MongoConnection class"""
 
+from bson import ObjectId
 from typing import List
 
 from pymongo import MongoClient
@@ -25,13 +26,13 @@ class MongoConnection:
 
         return [document for document in documents]
 
-    def delete_one(self, collection: str, identifier: str) -> None:
-        self._client[self.database_name][collection].find_one_and_delete(
-            filter={"_id": identifier},
+    def update_one(self, collection: str, identifier: str, data: dict) -> None:
+        self._client[self.database_name][collection].update_one(
+            {"_id": ObjectId(identifier)},
+            {"$set": data},
         )
 
-    def update_one(self, collection: str, identifier: str, data: dict) -> None:
-        self._client[self.database_name][collection].find_one_and_update(
-            filter={"_id": identifier},
-            update=data,
+    def delete_one(self, collection: str, identifier: str) -> None:
+        self._client[self.database_name][collection].delete_one(
+            {"_id": ObjectId(identifier)},
         )
